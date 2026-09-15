@@ -105,9 +105,22 @@ given the list animals, create a new list with animals whose names are made of l
 animals = ['lion', 'giraffe', 'gorilla', 'parrots', 'crocodile', 'deer', 'swan']
 newanimals = []
 
+for animal in animals:
+    if len(animal) < 6:
+        newanimals.append(animal)
 
-print("\n---- EXERCISE 1: FUNCTIONS --------")
+print(f"Animals with less than 6 letters: {newanimals}")
+
+
+print("\n---- EXERCISE 2: FUNCTIONS --------")
 # define a function to find and return the average of grades in list 'grades'
 # average = sum all the grades / length of the list 'grades
 grade = [65, 87, 95, 77, 35]
 lengraded = len(grade)
+
+def average(grades):
+    total = sum(grades)
+    avg = total / len(grades)
+    return avg
+
+print(f"The average grade is {average(grade)}")
