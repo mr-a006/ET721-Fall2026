@@ -59,7 +59,7 @@ else:
 
 # b. Load DataFrame from pickle
 games = pd.read_pickle(file_name)
-print("\nGates data from pickle file: ")
+print("\nGames data from pickle file: ")
 print(games.head())
 
 # c. Filter GSW vs Raptors
@@ -79,4 +79,140 @@ print(f"Warriors home points average {home_avg_pts}")
 print(f"Warriors away points average {away_avg_pts}")
 
 print('\n------------------------- LAB EXERCISE -------------------------')
-# pick two teams to work on step a through d.
+# pick two teams to work on step a through e.
+# teams selected: Arsenal and Chelsea
+# a. download the EPL CSV file
+url = "https://datahub.io/football/english-premier-league/r/season-2324.csv"
+file_name = "epl_matches.csv"
+
+print("\nDownloading EPL data...")
+response = requests.get(url)
+
+if response.status_code == 200:
+    with open(file_name, "wb") as f:
+        f.write(response.content)
+    print("Download complete")
+else:
+    print("Download failed")
+
+# b. load DataFrame from CSV
+epl = pd.read_csv(file_name)
+
+print("\nEPL data from CSV file:")
+print(epl.head())
+
+# c. filter Arsenal and Chelsea matches
+
+# Arsenal matches
+arsenal_matches = epl[
+    (epl['HomeTeam'] == 'Arsenal') |
+    (epl['AwayTeam'] == 'Arsenal')
+]
+
+# Chelsea matches
+chelsea_matches = epl[
+    (epl['HomeTeam'] == 'Chelsea') |
+    (epl['AwayTeam'] == 'Chelsea')
+]
+
+print("\nArsenal matches:")
+print(arsenal_matches.head())
+
+print("\nChelsea matches:")
+print(chelsea_matches.head())
+
+# d. calculate averages
+
+# Arsenal goals scored
+arsenal_goals = (
+    arsenal_matches['FTHG'].where(
+        arsenal_matches['HomeTeam'] == 'Arsenal',
+        arsenal_matches['FTAG']
+    )
+)
+
+# Chelsea goals scored
+chelsea_goals = (
+    chelsea_matches['FTHG'].where(
+        chelsea_matches['HomeTeam'] == 'Chelsea',
+        chelsea_matches['FTAG']
+    )
+)
+
+# Arsenal goals conceded
+arsenal_goals_conceded = (
+    arsenal_matches['FTAG'].where(
+        arsenal_matches['HomeTeam'] == 'Arsenal',
+        arsenal_matches['FTHG']
+    )
+)
+
+# Chelsea goals conceded
+chelsea_goals_conceded = (
+    chelsea_matches['FTAG'].where(
+        chelsea_matches['HomeTeam'] == 'Chelsea',
+        chelsea_matches['FTHG']
+    )
+)
+
+arsenal_avg_goals = arsenal_goals.mean()
+chelsea_avg_goals = chelsea_goals.mean()
+
+arsenal_avg_conceded = arsenal_goals_conceded.mean()
+chelsea_avg_conceded = chelsea_goals_conceded.mean()
+
+print(f"\nArsenal average goals scored: {arsenal_avg_goals:.2f}")
+print(f"Chelsea average goals scored: {chelsea_avg_goals:.2f}")
+
+print(f"Arsenal average goals conceded: {arsenal_avg_conceded:.2f}")
+print(f"Chelsea average goals conceded: {chelsea_avg_conceded:.2f}")
+
+# e. visualize
+
+import matplotlib.pyplot as plt
+
+metrics = ['Goals Scored', 'Goals Conceded']
+
+arsenal_values = [
+    arsenal_avg_goals,
+    arsenal_avg_conceded
+]
+
+chelsea_values = [
+    chelsea_avg_goals,
+    chelsea_avg_conceded
+]
+
+x = range(len(metrics))
+bar_width = 0.35
+
+plt.figure(figsize=(8, 5))
+
+plt.bar(
+    [i - bar_width / 2 for i in x],
+    arsenal_values,
+    width=bar_width,
+    label='Arsenal',
+    color='red'
+)
+
+plt.bar(
+    [i + bar_width / 2 for i in x],
+    chelsea_values,
+    width=bar_width,
+    label='Chelsea',
+    color='blue'
+)
+
+plt.xticks(x, metrics)
+
+plt.title('Arsenal vs Chelsea — Average Goals Comparison')
+plt.ylabel('Average Goals')
+plt.legend()
+
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+
+plt.show(block=True)
+
+input("Press Enter to close...")
