@@ -22,3 +22,5 @@ def validate_password(password):
 
 # exercise 3
 # create a function that checks if a number is even
+def is_even(n):
+    return n % 2 == 0
