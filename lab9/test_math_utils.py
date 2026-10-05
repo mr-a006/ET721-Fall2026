@@ -41,3 +41,4 @@ def test_is_even(n, expected):
     assert is_even(n) == expected
 
 # exercise 4
+# create a parametrize test for exercise 2
