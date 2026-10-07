@@ -42,3 +42,16 @@ def test_is_even(n, expected):
 
 # exercise 4
 # create a parametrize test for exercise 2
+@pytest.mark.parametrize(
+    "password, expected",
+    [
+        ("password1", True),
+        ("hello123", True),
+        ("testingpassword", False),
+        ("pass1", False),
+        ("abcdefgh", False),
+        ("12345678", True),
+    ]
+)
+def test_validate_password(password, expected):
+    assert validate_password(password) == expected
