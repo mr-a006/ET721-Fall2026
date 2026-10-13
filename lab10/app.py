@@ -17,16 +17,16 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     name = "Aqeel Hussain"
-    fruits = ['apple', 'kiwis', 'oranges']
+    fruits = ['apple', 'pineapple', 'oranges']
     return render_template("index.html", username = name, listfruits = fruits)
 
 @app.route('/about')
 def about():
-    return '<h1>About Us</h1>'
+    return render_template('about.html')
 
 @app.route('/quotes')
 def quotes():
-    # return '<h1> Quotes</h1>'
+    # return '<h1> Quotes</h1>' // redirect to index
     return redirect(url_for('index'))
 
 
