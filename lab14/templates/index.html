@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Item</title>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">
+</head>
+<body>
+    <h1 class="title">Aqeel Hussain</h1>
+    <h2>Create Item</h2>
+    <form id="itemForm">
+        <div class="formsession">
+            <label>Name:
+                <input type="text" id="name" required>
+            </label>
+        </div>
+
+        <div class="formsession">
+            <label>Price:
+                <input type="text" id="price" required>
+            </label>
+        </div>
+
+        <div class="formsession">
+            <button type="submit">SUBMIT</button>
+        </div>
+    </form>
+
+    <p id="response"></p>
+
+    <script src="{{url_for('static', filename='app_script.js')}}">HOLDER</script>
+</body>
+</html>
