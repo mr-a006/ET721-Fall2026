@@ -3,31 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Item</title>
+    <title>Aqeel Hussain - Create Item</title>
     <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">
 </head>
 <body>
-    <h1 class="title">Aqeel Hussain</h1>
-    <h2>Create Item</h2>
-    <form id="itemForm">
-        <div class="formsession">
+    <header>
+        <h1 class="title">Aqeel Hussain</h1>
+        <p>Item Management Application</p>
+    </header>
+
+    <main>
+        <section class="container">
+            <h2>Create Item</h2>
+            <form id="itemForm">
+                <div class="formsession">
+                    <label>Name:
+                        <input type="text" id="name" required>
+                    </label>
+                </div>
+
+                <div class="formsession">
+                    <label>Price:
+                        <input type="number" id="price" required>
+                    </label>
+                </div>
+
+                <div class="formsession">
+                    <button type="submit">SUBMIT</button>
+                </div>
+
+                <p id="response"></p>
+            </form>
+        </section>
+
+        <!-- LOADING ITEM -->
+        <section class="container loaditems">
+            <h2>ALL ITEMS</h2>
+            <button onclick="loaditems()">LOAD ITEMS</button>
+
+            <ul class="itemslist">
+                
+            </ul>
+
+        </section>
+        
+        <!-- TABLE TO UPDATE AN ITEM NAME AND PRICE -->
+        <section id="updateSection" class="container" style="display: none;">
+            <h3>Update Item</h3>
+            <input type="hidden" id="updateID">
             <label>Name:
-                <input type="text" id="name" required>
+                <input type="text" id="updateName">
             </label>
-        </div>
-
-        <div class="formsession">
             <label>Price:
-                <input type="text" id="price" required>
+                <input type="number" id="updatePrice">
             </label>
-        </div>
 
-        <div class="formsession">
-            <button type="submit">SUBMIT</button>
-        </div>
-    </form>
+            <button onclick="updateItem()">SAVE UPDATE</button>
+        </section>
+    </main>
 
-    <p id="response"></p>
+    <footer>
+        <p>Created by Aqeel Hussain</p>
+    </footer>
 
     <script src="{{url_for('static', filename='app_script.js')}}">HOLDER</script>
 </body>

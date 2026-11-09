@@ -1,5 +1,174 @@
 *{box-sizing: border-box;}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f0;
+    color: #333;
+}
+
+header{
+    background-color: darkgreen;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
 .title{
     text-align: center;
+    color: white;
+    margin: 0;
+    font-size: 32px;
+}
+
+header p{
+    margin-bottom: 0;
+}
+
+main{
+    width: 90%;
+    max-width: 850px;
+    margin: 30px auto;
+}
+
+.container{
+    background-color: white;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+h2, h3{
+    text-align: center;
+	color: darkgreen;
+}
+
+.formsession{
+    margin-bottom: 18px;
+}
+
+label{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+input{
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+input:focus{
+    outline: none;
+    border-color: darkgreen;
+}
+
+button{
+    background-color: darkgreen;
+    color: white;
+    padding: 11px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 5px;
+}
+
+button:hover{
+    background-color: #006400;
+}
+
+.loaditems{
+    text-align: center;
+}
+
+.itemslist{
+    text-align: left;
+    padding-left: 25px;
+}
+
+.itemslist li{
+    background-color: #f0f4f0;
+    padding: 15px;
+    margin: 12px 0;
+    border-radius: 6px;
+    overflow-wrap: anywhere;
+}
+
+.itemslist button{
+    margin-left: 8px;
+}
+
+#response{
     color: darkgreen;
+    font-weight: bold;
+    text-align: center;
+}
+
+#updateSection{
+    border-top: 4px solid darkgreen;
+}
+
+.confirmation{
+    text-align: center;
+    padding: 40px 25px;
+}
+
+.confirmation h1, .confirmation h2{
+    color: darkgreen;
+}
+
+.confirmation p{
+    font-size: 17px;
+    margin: 15px;
+}
+
+.linkbutton{
+    display: inline-block;
+    background-color: darkgreen;
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    margin-top: 20px;
+    border-radius: 6px;
+}
+
+.linkbutton:hover{
+    background-color: #006400;
+}
+
+footer{
+    background-color: darkgreen;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+}
+
+footer p{
+    margin: 0;
+}
+
+@media screen and (max-width: 600px){
+    main{
+        width: 95%;
+    }
+
+    .container{
+        padding: 18px;
+    }
+
+    .title{
+        font-size: 26px;
+    }
+
+    .itemslist li{
+        padding: 10px;
+    }
 }
