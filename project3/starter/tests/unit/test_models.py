@@ -25,14 +25,16 @@ def test_calculateAverageQuantity_withFruitsList_returnsCorrectAverage():
     Test the calculation of the average quantity of fruits in an inventory.
     Checks if the average_quantity method computes the correct average.
     """
-    pass
+    fruits = [Fruit(name="Apple", quantity=10), Fruit(name="Banana", quantity=5)]
+    assert FruitMetrics.average_quantity(fruits) == 7.5
 
 def test_identifyMostCommonFruit_withFruitsList_returnsMostFrequentFruit():
     """
     Test to identify the most common fruit in an inventory.
     Checks if the most_common_fruit method correctly identifies the fruit that appears most frequently.
     """
-    pass
+    fruits = [Fruit(name="Apple", quantity=10), Fruit(name="Apple", quantity=5), Fruit(name="Banana", quantity=8)]
+    assert FruitMetrics.most_common_fruit(fruits) == "Apple"
 
 def test_createFruit_withValidDetails_createsFruitSuccessfully():
     """
@@ -56,12 +58,42 @@ def test_createFruit_withNegativeQuantity_raisesAssertionError():
     Test the creation of a Fruit instance with an invalid quantity.
     Verifies that an AssertionError is raised when the quantity is negative.
     """
-    pass
+    with pytest.raises(AssertionError):
+        invalid_fruit = Fruit(name="Apple", quantity=-5)
 
 def test_createFruit_withNonIntegerQuantity_raisesAssertionError():
     """
     Test the creation of a Fruit instance with an invalid quantity type.
     Verifies that an AssertionError is raised when the quantity is not an integer.
     """
-    pass
+    with pytest.raises(AssertionError):
+        invalid_fruit = Fruit(name="Apple", quantity="ten")
 
+def test_calculateAverageQuantity_withEmptyList_returnsZero():
+    """
+    Test the average quantity calculation with an empty inventory.
+    Verifies that zero is returned when there are no fruits.
+    """
+    assert FruitMetrics.average_quantity([]) == 0
+
+
+def test_identifyMostCommonFruit_withEmptyList_returnsNone():
+    """
+    Test identifying the most common fruit with an empty inventory.
+    Verifies that None is returned when there are no fruits.
+    """
+    assert FruitMetrics.most_common_fruit([]) is None
+
+
+def test_serializeFruit_withValidFruit_returnsCorrectDictionary():
+    """
+    Test the serialization of a Fruit instance.
+    Verifies that all fruit attributes are returned in a dictionary.
+    """
+    fruit = Fruit(name="Apple", quantity=10, variety="Gala", season="Winter")
+    result = fruit.serialize()
+
+    assert result['name'] == "Apple"
+    assert result['quantity'] == 10
+    assert result['variety'] == "Gala"
+    assert result['season'] == "Winter"

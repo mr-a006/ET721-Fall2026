@@ -45,3 +45,60 @@ def test_addFruit_withValidData_returnsSuccessMessageAndFruitId(client):
     assert response.status_code == 201
     assert data['message'] == 'Fruit added successfully'
     assert 'id' in data
+
+def test_home_returnsWelcomeMessage(client):
+    response = client.get('/')
+    data = json.loads(response.data)
+
+    assert response.status_code == 200
+    assert 'message' in data
+
+
+def test_updateFruit_withExistingFruit_updatesFruitSuccessfully(client):
+    updated_fruit = {"name": "Green Apple", "quantity": 25}
+    response = client.put('/api/fruits/1', json=updated_fruit)
+    data = json.loads(response.data)
+
+    assert response.status_code == 200
+    assert data['message'] == 'Fruit updated successfully'
+
+
+def test_updateFruit_withNonExistingFruit_returnsNotFound(client):
+    response = client.put('/api/fruits/999', json={"name": "Orange"})
+    data = json.loads(response.data)
+
+    assert response.status_code == 404
+    assert data['message'] == 'Fruit not found'
+
+
+def test_deleteFruit_withExistingFruit_deletesFruitSuccessfully(client):
+    response = client.delete('/api/fruits/1')
+    data = json.loads(response.data)
+
+    assert response.status_code == 200
+    assert data['message'] == 'Fruit deleted successfully'
+
+
+def test_deleteFruit_withNonExistingFruit_returnsNotFound(client):
+    response = client.delete('/api/fruits/999')
+    data = json.loads(response.data)
+
+    assert response.status_code == 404
+    assert data['message'] == 'Fruit not found'
+
+
+def test_searchFruits_withMatchingName_returnsMatchingFruits(client):
+    response = client.get('/api/fruits/search?name=Apple')
+    data = json.loads(response.data)
+
+    assert response.status_code == 200
+    assert len(data) == 1
+    assert data[0]['name'] == 'Apple'
+
+
+def test_searchFruits_withNoMatchingResults_returnsMessage(client):
+    response = client.get('/api/fruits/search?name=Pineapple')
+    data = json.loads(response.data)
+
+    assert response.status_code == 200
+    assert data['message'] == 'No fruits found matching the search criteria'
