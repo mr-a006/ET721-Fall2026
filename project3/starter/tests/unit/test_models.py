@@ -97,3 +97,20 @@ def test_serializeFruit_withValidFruit_returnsCorrectDictionary():
     assert result['quantity'] == 10
     assert result['variety'] == "Gala"
     assert result['season'] == "Winter"
+
+def test_isExpired_withPastExpirationDate_returnsTrue():
+    from datetime import date, timedelta
+
+    fruit = Fruit(name="Apple", quantity=10)
+    fruit.expiration_date = date.today() - timedelta(days=1)
+
+    assert fruit.is_expired() is True
+
+
+def test_isExpired_withFutureExpirationDate_returnsFalse():
+    from datetime import date, timedelta
+
+    fruit = Fruit(name="Apple", quantity=10)
+    fruit.expiration_date = date.today() + timedelta(days=5)
+
+    assert fruit.is_expired() is False

@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from datetime import date
 from .models import db, Fruit
 
 main = Blueprint('main', __name__)
@@ -10,7 +11,8 @@ def home():
 @main.route('/api/fruits', methods=['POST'])
 def add_fruit():
     data = request.json
-    fruit = Fruit(name=data['name'], quantity=data['quantity'], variety=data['variety'], season=data['season'])
+    expiration_date = date.fromisoformat(data['expiration_date']) if data.get('expiration_date') else None
+    fruit = Fruit(name=data['name'], quantity=data['quantity'], variety=data['variety'], season=data['season'], expiration_date=expiration_date)
     db.session.add(fruit)
     db.session.commit()
     return jsonify({'message': 'Fruit added successfully', 'id': fruit.id}), 201
@@ -19,6 +21,12 @@ def add_fruit():
 def get_all_fruits():
     fruits = Fruit.query.all()
     return jsonify([fruit.serialize() for fruit in fruits]), 200
+
+@main.route('/api/fruits/expired', methods=['GET'])
+def get_expired_fruits():
+    fruits = Fruit.query.all()
+    expired_fruits = [fruit for fruit in fruits if fruit.is_expired()]
+    return jsonify([fruit.serialize() for fruit in expired_fruits]), 200
 
 @main.route('/api/fruits/<int:fruit_id>', methods=['PUT'])
 def update_fruit(fruit_id):

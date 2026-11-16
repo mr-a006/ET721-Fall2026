@@ -1,5 +1,7 @@
+
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
+from datetime import date
 
 db = SQLAlchemy()
 
@@ -9,6 +11,7 @@ class Fruit(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     variety = db.Column(db.String(80))
     season = db.Column(db.String(80))
+    expiration_date = db.Column(db.Date, nullable=True)
 
     # The `validates` decorator from SQLAlchemy is used for validation logic
     # When creating or modifying Fruit instance, it will automatically be called
@@ -39,6 +42,11 @@ class Fruit(db.Model):
         if max_quantity is not None:
             query = query.filter(Fruit.quantity <= max_quantity)
         return query.all()
+		
+    def is_expired(self, as_of=None):
+        if self.expiration_date is None:
+            return False
+        return self.expiration_date < (as_of or date.today())
 
     def serialize(self):
         return {
@@ -46,7 +54,8 @@ class Fruit(db.Model):
             'name': self.name,
             'quantity': self.quantity,
             'variety': self.variety,
-            'season': self.season
+            'season': self.season,
+            'expiration_date': self.expiration_date.isoformat() if self.expiration_date else None
         }
 
 class FruitMetrics:

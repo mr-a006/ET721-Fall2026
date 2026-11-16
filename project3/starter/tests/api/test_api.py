@@ -1,5 +1,6 @@
 import json
 import pytest
+from datetime import date, timedelta
 from app import create_app
 from app.models import db, Fruit
 
@@ -102,3 +103,41 @@ def test_searchFruits_withNoMatchingResults_returnsMessage(client):
 
     assert response.status_code == 200
     assert data['message'] == 'No fruits found matching the search criteria'
+
+def test_addFruit_withExpirationDate_savesExpirationDate(client):
+    expiration = (date.today() - timedelta(days=1)).isoformat()
+    new_fruit = {"name": "Orange", "quantity": 5, "variety": "Navel", "season": "Winter", "expiration_date": expiration}
+    response = client.post('/api/fruits', json=new_fruit)
+    data = json.loads(response.data)
+
+    assert response.status_code == 201
+    assert data['message'] == 'Fruit added successfully'
+
+    fruits = client.get('/api/fruits').get_json()
+    orange = next(fruit for fruit in fruits if fruit['name'] == 'Orange')
+
+    assert orange['expiration_date'] == expiration
+
+def test_getExpiredFruits_returnsOnlyExpiredFruits(client):
+    expired_date = (date.today() - timedelta(days=1)).isoformat()
+    future_date = (date.today() + timedelta(days=5)).isoformat()
+
+    expired_fruit = {"name": "Mango", "quantity": 5, "variety": "Alphonso", "season": "Summer", "expiration_date": expired_date}
+    fresh_fruit = {"name": "Peach", "quantity": 8, "variety": "Yellow", "season": "Summer", "expiration_date": future_date}
+
+    client.post('/api/fruits', json=expired_fruit)
+    client.post('/api/fruits', json=fresh_fruit)
+
+    response = client.get('/api/fruits/expired')
+    data = json.loads(response.data)
+
+    assert response.status_code == 200
+    assert len(data) == 1
+    assert data[0]['name'] == 'Mango'
+
+def test_getExpiredFruits_whenNoFruitsHaveExpired_returnsEmptyList(client):
+    response = client.get('/api/fruits/expired')
+    data = json.loads(response.data)
+
+    assert response.status_code == 200
+    assert data == []
