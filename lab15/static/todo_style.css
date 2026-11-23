@@ -32,3 +32,30 @@
     background-color: crimson;
     font-weight: bold;
 }
+/* style for task items */
+.task_item{
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+#taskList{
+    list-style-type: none;
+    padding-left: 0.5rem;
+    margin-top: 2rem;
+    background-color: darkblue;
+}
+/* delete button style */
+.btndeletetask{
+    float: right;
+    color: crimson;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    background-color: white;
+}
+.btndeletetask:hover{
+    filter: opacity(0.6);
+    transform: scale(1.1);
+    font-weight: bold;
+}
