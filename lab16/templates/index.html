@@ -9,7 +9,7 @@
 <body>
     <h1 class="title">Uploader Image App by Aqeel Hussain</h1>
     <form id="uploadForm">
-        <input type="file" name="image" id="imageInput" required/>
+        <input type="file" name="image" id="imageInput" accept="image/*" required/>
         <button type="submit" class="btnupload">Upload Image</button>
     </form>
 
@@ -18,8 +18,14 @@
     <h2 class="subtitle">Gallery</h2>
     <div class="gallery">
         <div class="card">
-            <img src="{{url_for('static', filename=uploads/nyc.jpg)}}"/>
+            <img src="{{url_for('static', filename='uploads/nyc.jpg')}}" alt="New York City"/>
         </div>
+
+        {% for image in images %}
+        <div class="card">
+            <img src="{{url_for('static', filename='uploads/' + image.filename)}}" alt="Uploaded image"/>
+        </div>
+        {% endfor %}
     </div>
 
     <script src="{{url_for('static', filename='imguploader_script.js')}}"></script>
